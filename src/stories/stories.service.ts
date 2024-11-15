@@ -6,7 +6,8 @@ export class StoriesService {
   constructor(private prisma: PrismaService) {}
 
   async getAllStories() {
-    return this.prisma.stories.findMany();
+    const stories = await this.prisma.stories.findMany();
+    return stories;
   }
 
   async getStoryById(id: number) {

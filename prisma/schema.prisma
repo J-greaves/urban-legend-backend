@@ -20,7 +20,7 @@ model stories {
   title      String
   story_type String
   story      String   @db.Text
-  latlong    String
+  latlong    Json
   createdAt  DateTime @default(now())
   location   String
   authorId   Int?
