@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  password String
+  name     String?
+  stories  stories[]   // Relation to Story model (plural on this side)
+}
+
+model stories {
+  id         Int      @id @default(autoincrement())
+  title      String
+  story_type String
+  story      String   @db.Text
+  latlong    String
+  createdAt  DateTime @default(now())
+  location   String
+  authorId   Int?
+  author     User?    @relation(fields: [authorId], references: [id]) // Relation to User model
+
+  @@index([authorId], map: "stories_authorId_fkey")
+}
