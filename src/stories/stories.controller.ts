@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Post, Body, Delete } from '@nestjs/common';
 import { StoriesService } from './stories.service';
+import { CreateStoryDto } from './create-story.dto';
 
 @Controller('stories')
 export class StoriesController {
@@ -18,16 +19,9 @@ export class StoriesController {
   @Post()
   async createStory(
     @Body()
-    body: {
-      title: string;
-      story_type: string;
-      story: string;
-      latlong: string;
-      location: string;
-      authorId: number | null;
-    },
+    CreateStoryDto: CreateStoryDto,
   ) {
-    return this.storiesService.createStory(body);
+    return this.storiesService.createStory(CreateStoryDto);
   }
 
   @Delete(':id')

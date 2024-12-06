@@ -6,12 +6,12 @@ export class StoriesService {
   constructor(private prisma: PrismaService) {}
 
   async getAllStories() {
-    const stories = await this.prisma.stories.findMany();
+    const stories = await this.prisma.story.findMany();
     return stories;
   }
 
   async getStoryById(id: number) {
-    return this.prisma.stories.findUnique({
+    return this.prisma.story.findUnique({
       where: { id },
     });
   }
@@ -20,17 +20,19 @@ export class StoriesService {
     title: string;
     story_type: string;
     story: string;
-    latlong: string;
+    latlong: [number, number];
     location: string;
     authorId: number | null;
+    imageUrl: string;
   }) {
-    return this.prisma.stories.create({
+    console.log('story to create', data);
+    return this.prisma.story.create({
       data,
     });
   }
 
   async deleteStory(id: number) {
-    return this.prisma.stories.delete({
+    return this.prisma.story.delete({
       where: { id },
     });
   }

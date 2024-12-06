@@ -8,23 +8,38 @@ datasource db {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  email    String    @unique
-  password String
-  name     String?
-  stories  stories[]   // Relation to Story model (plural on this side)
+  id          Int             @id @default(autoincrement())
+  email       String          @unique
+  userName    String          // Username for the user
+  avatarUrl   String?         @db.VarChar(500)   // Optional avatar URL
+  stories     Story[]         // Relation: Stories authored by this user
+  favorites   StoryFavorites[] // Relation: Stories favorited by this user
+  createdAt   DateTime        @default(now()) // Auto-generated timestamp for creation
 }
 
-model stories {
-  id         Int      @id @default(autoincrement())
-  title      String
-  story_type String
-  story      String   @db.Text
-  latlong    Json
-  createdAt  DateTime @default(now())
-  location   String
-  authorId   Int?
-  author     User?    @relation(fields: [authorId], references: [id]) // Relation to User model
+model Story {
+  id          Int               @id @default(autoincrement())
+  title       String            // Title of the story
+  story_type  String            // Category or type of the story
+  story       String            @db.Text  // Full story content (stored as Text in MySQL)
+  latlong     Json              // Geographical data stored as JSON
+  location    String            // Location information as a string
+  createdAt   DateTime          @default(now()) // Auto-generated timestamp for creation
+  favoritedBy StoryFavorites[]  // Relation: Users who favorited this story
+  authorId    Int               // Foreign key referencing User
+  imageUrl    String?
+  author      User              @relation(fields: [authorId], references: [id]) // Relation to User model
 
-  @@index([authorId], map: "stories_authorId_fkey")
+  @@index([authorId]) // Index for efficient queries on the authorId column
 }
+
+model StoryFavorites {
+  id        Int      @id @default(autoincrement()) // Primary key, auto-increments
+  userId    Int      // Foreign key referencing User
+  storyId   Int      // Foreign key referencing Story
+  user      User     @relation(fields: [userId], references: [id]) // Relation to User
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade) // Add `onDelete: Cascade`
+
+  @@unique([userId, storyId]) // Ensures no duplicate user-story pairs
+}
+
