@@ -1,6 +1,6 @@
 # Loremapper Urban Legend Map — Backend API
 
-> The API server for [Loremapper](https://github.com/J-greaves/urban-legend-map-remix), a crowd-sourced interactive map of myths, legends, ghost stories, and folklore pinned to real-world locations.
+> The API server for [Loremapper](https://github.com/J-greaves/loremapper-ui), a crowd-sourced interactive map of myths, legends, ghost stories, and folklore pinned to real-world locations.
 
 ---
 
@@ -25,7 +25,7 @@
 
 Loremapper lets users explore and submit stories tied to specific coordinates on an interactive world map. Stories are categorised by type — myths, legends, ghost stories, urban legends, fairy tales, historic facts, alien sightings, folk songs, and more. Authenticated users can submit new stories, attach images, and save favourites.
 
-This repository is the **backend API only**. The React/Remix frontend lives at [urban-legend-map-remix](https://github.com/J-greaves/urban-legend-map-remix).
+This repository is the **backend API only**. The React/Remix frontend lives at [loremapper-ui](https://github.com/J-greaves/loremapper-ui).
 
 ---
 
@@ -98,8 +98,8 @@ The fastest way to get the API running locally. Docker Compose starts both the M
 
 **1. Clone the repo**
 ```bash
-git clone https://github.com/J-greaves/urban-legend-backend.git
-cd urban-legend-backend
+git clone https://github.com/J-greaves/loremapper-backend.git
+cd loremapper-backend
 ```
 
 **2. Create your environment file**
@@ -191,11 +191,11 @@ npx tsx db/seeds/runSeed.ts
 
 ## Running the Frontend
 
-The Remix frontend is a separate repository: [urban-legend-map-remix](https://github.com/J-greaves/urban-legend-map-remix)
+The Remix frontend is a separate repository: [loremapper-ui](https://github.com/J-greaves/loremapper-ui)
 
 ```bash
-git clone https://github.com/J-greaves/urban-legend-map-remix.git
-cd urban-legend-map-remix
+git clone https://github.com/J-greaves/loremapper-ui.git
+cd loremapper-ui
 npm install
 cp .env.example .env
 ```
@@ -302,7 +302,7 @@ GitHub Actions runs lint, tests, and a build check automatically on every push a
 ## Project Structure
 
 ```
-urban-legend-backend/
+loremapper-backend/
 ├── src/
 │   ├── auth/                  # JWT auth — register, login, guards, strategy
 │   │   ├── dto/               # RegisterDto, LoginDto
