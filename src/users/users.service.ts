@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { Story, User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './create-user.dto';
 
@@ -6,54 +11,39 @@ import { CreateUserDto } from './create-user.dto';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  // Find a user by email
-  async findUserByEmail(email: string) {
-    return this.prisma.user.findUnique({
-      where: { email },
-    });
+  async findUserByEmail(email: string): Promise<User | null> {
+    return this.prisma.user.findUnique({ where: { email } });
   }
 
-  // Create a new user
-  async createUser(createUserDto: CreateUserDto) {
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
     const { email, userName, avatarUrl } = createUserDto;
 
-    const user = await this.prisma.user.create({
-      data: {
-        email,
-        userName,
-        avatarUrl,
-      },
-    });
+    const existing = await this.prisma.user.findUnique({ where: { email } });
+    if (existing) {
+      throw new ConflictException(`A user with email ${email} already exists`);
+    }
 
-    return user;
+    return this.prisma.user.create({ data: { email, userName, avatarUrl } });
   }
 
-  // Fetch all users submitted and favourited stories
-  async getUserStories(userId: number) {
-    // Fetch the user's favorite stories and submitted stories
+  async getUserStories(
+    userId: number,
+  ): Promise<{ favoriteStories: Story[]; submittedStories: Story[] }> {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException(`User with id ${userId} not found`);
+    }
+
     const [favoriteStories, submittedStories] = await Promise.all([
       this.prisma.story.findMany({
-        where: {
-          favoritedBy: {
-            some: {
-              userId: userId, // Match userId in the StoryFavorites table
-            },
-          },
-        },
-        include: {
-          author: true, // Optionally include author details
-        },
+        where: { favoritedBy: { some: { userId } } },
+        include: { author: true },
       }),
       this.prisma.story.findMany({
-        where: {
-          authorId: userId, // Match the user's ID with the authorId
-        },
+        where: { authorId: userId },
       }),
     ]);
 
-    return {
-      favoriteStories,
-      submittedStories,
-    };
+    return { favoriteStories, submittedStories };
   }
 }

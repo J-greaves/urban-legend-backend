@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc:*)",
+      "Bash(npx nest build:*)",
+      "Bash(node_modules/.bin/nest build:*)",
+      "Bash(node_modules/.bin/tsc:*)",
+      "Bash(node -e \"const { execSync } = require\\(''child_process''\\); try { execSync\\(''node_modules/.bin/tsc -p tsconfig.build.json'', {stdio: ''pipe''}\\); console.log\\(''OK''\\); } catch\\(e\\) { console.log\\(e.stdout?.toString\\(\\)\\); console.log\\(e.stderr?.toString\\(\\)\\); }\")",
+      "Bash(node -e \"const { execSync } = require\\(''child_process''\\); try { execSync\\(''npx tsc -p tsconfig.build.json'', {stdio: ''pipe'', cwd: process.cwd\\(\\)}\\); console.log\\(''BUILD OK''\\); } catch\\(e\\) { console.log\\(''STDOUT:'', e.stdout?.toString\\(\\)\\); console.log\\(''STDERR:'', e.stderr?.toString\\(\\)\\); }\")",
+      "Bash(node -e \"const {execSync}=require\\(''child_process''\\);try{const r=execSync\\(''npm run build'',{cwd:process.cwd\\(\\),stdio:''pipe''}\\);console.log\\(''OK'',r.toString\\(\\)\\);}catch\\(e\\){console.log\\(''FAIL'',e.stdout?.toString\\(\\),e.stderr?.toString\\(\\)\\);}\")"
+    ]
+  }
+}

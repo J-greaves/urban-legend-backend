@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AwsS3Service } from './aws-s3.service';
 
 interface PresignRequest {
@@ -11,15 +11,11 @@ export class AwsS3Controller {
   constructor(private readonly awsS3Service: AwsS3Service) {}
 
   @Post('generate-presigned-url')
-  async getPresignedUrl(@Body() body: PresignRequest) {
-    const { filename, filetype } = body; // Get file name and type from the body
-    const key = `uploads/${filename}`; // Customize the key (e.g., the folder path in S3)
-    const url = await this.awsS3Service.generatePresignedUrl(
-      'loremapper',
-      key,
-      filetype,
-    ); // Pass fileType as well
-
+  async getPresignedUrl(@Body() body: PresignRequest): Promise<{ url: string }> {
+    const { filename, filetype } = body;
+    const bucket = process.env.AWS_S3_BUCKET ?? 'loremapper';
+    const key = `uploads/${filename}`;
+    const url = await this.awsS3Service.generatePresignedUrl(bucket, key, filetype);
     return { url };
   }
 }

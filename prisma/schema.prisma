@@ -8,13 +8,14 @@ datasource db {
 }
 
 model User {
-  id          Int             @id @default(autoincrement())
-  email       String          @unique
-  userName    String          // Username for the user
-  avatarUrl   String?         @db.VarChar(500)   // Optional avatar URL
-  stories     Story[]         // Relation: Stories authored by this user
-  favorites   StoryFavorites[] // Relation: Stories favorited by this user
-  createdAt   DateTime        @default(now()) // Auto-generated timestamp for creation
+  id            Int              @id @default(autoincrement())
+  email         String           @unique
+  userName      String
+  avatarUrl     String?          @db.VarChar(500)
+  passwordHash  String?
+  stories       Story[]
+  favorites     StoryFavorites[]
+  createdAt     DateTime         @default(now())
 }
 
 model Story {
