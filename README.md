@@ -1,12 +1,12 @@
-# Myth Map — Backend API
+# Loremapper Urban Legend Map — Backend API
 
-> The API server for [Myth Map](https://github.com/J-greaves/urban-legend-map-remix), a crowd-sourced interactive map of myths, legends, ghost stories, and folklore pinned to real-world locations.
+> The API server for [Loremapper](https://github.com/J-greaves/urban-legend-map-remix), a crowd-sourced interactive map of myths, legends, ghost stories, and folklore pinned to real-world locations.
 
 ---
 
 ## Table of Contents
 
-- [What is Myth Map?](#what-is-myth-map)
+- [What is Loremapper?](#what-is-loremapper)
 - [Architecture](#architecture)
 - [Tech Stack](#tech-stack)
 - [Prerequisites](#prerequisites)
@@ -21,9 +21,9 @@
 
 ---
 
-## What is Myth Map?
+## What is Loremapper?
 
-Myth Map lets users explore and submit stories tied to specific coordinates on an interactive world map. Stories are categorised by type — myths, legends, ghost stories, urban legends, fairy tales, historic facts, alien sightings, folk songs, and more. Authenticated users can submit new stories, attach images, and save favourites.
+Loremapper lets users explore and submit stories tied to specific coordinates on an interactive world map. Stories are categorised by type — myths, legends, ghost stories, urban legends, fairy tales, historic facts, alien sightings, folk songs, and more. Authenticated users can submit new stories, attach images, and save favourites.
 
 This repository is the **backend API only**. The React/Remix frontend lives at [urban-legend-map-remix](https://github.com/J-greaves/urban-legend-map-remix).
 
